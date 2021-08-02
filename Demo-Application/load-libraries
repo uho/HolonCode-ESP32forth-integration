@@ -1,0 +1,27 @@
+#!/bin/bash
+
+source ../config.sh
+
+absprojectpath=`pwd`
+project=`basename $absprojectpath`
+
+lowercaseproj=`echo "$project" | tr '[:upper:]' '[:lower:]'`
+p="$absprojectpath"/"$lowercaseproj"
+
+# here all library files 
+
+echo Loading library files for project $project
+
+echo "0 echo !" >$tty
+
+for f in \
+  multitask.fs \
+  blinky.fs \
+  patch.fs 
+do
+  echo $f
+  cat $p/$f >$tty
+done
+
+echo "-1 echo !" >$tty
+

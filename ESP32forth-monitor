@@ -1,0 +1,31 @@
+#!/bin/bash
+
+source `dirname $0`/config.sh
+
+monitorfile="`dirname $0`/holon.mon"
+
+echo "Montoring file $monitorfile"
+
+while true 
+do
+  mtime=`stat -f %m $monitorfile`
+
+  echo waiting...
+  while [ $mtime == `stat -f %m $monitorfile` ]
+  do
+    sleep 1
+  done
+  echo change detected
+
+  # prepare data
+  echo Create holon.mon$$
+  echo "0 echo !" >>/tmp/holon.mon$$
+  cat $monitorfile | tr [:cntrl:] " " >>/tmp/holon.mon$$
+  echo "revise  -1 echo !" >>/tmp/holon.mon$$
+  
+  # execute command
+  ascii-xfr -s -l 50 -n /tmp/holon.mon$$ >$tty
+
+  rm /tmp/holon.mon$$
+done
+

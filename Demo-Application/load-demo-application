@@ -1,0 +1,19 @@
+#!/bin/bash
+
+source ../config.sh
+
+absprojectpath=`pwd`
+project=`basename $absprojectpath`
+
+lowercaseproj=`echo "$project" | tr '[:upper:]' '[:lower:]'`
+p="$absprojectpath"/"$lowercaseproj"
+
+# here all project files in load order
+echo Loading application $project
+
+for f in \
+  main.fs 
+do
+  echo $f
+  cat $p/$f >$tty
+done

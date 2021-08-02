@@ -1,0 +1,5 @@
+#!/bin/bash
+
+source `dirname $0`/config.sh
+
+picocom -b 115200 $tty --imap lfcrlf,crcrlf --omap delbs,crlf --send-cmd "ascii-xfr -s -l 50 -n"
